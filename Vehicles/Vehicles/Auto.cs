@@ -8,7 +8,7 @@ namespace Vehicles
 {
     class Auto
     {
-        private int anzahlTueren;
+        protected int anzahlTueren;
         private string carColor;
         private string carType;
 
