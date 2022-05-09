@@ -1,0 +1,40 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model FahrzeugListeModel
+<p>Diese Fahrzeuge befinden sich derzeit in der Datenbank:</p>
+<div text-align="right" >
+     <label class="control-label">Suche</label>
+     <input asp-for="suche" class="form-control"/>
+     <span asp-validation-for="suche" class="text-danger"></span>
+     <input type="submit" value="Submit" class="btn bg-primary" />
+</div>
+<table class="table table-hover mb-0">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Type</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fahrzeug in Model.Fahrzeuge)
+        {
+            <tr>
+                <td>@fahrzeug.Id</td>
+                <td>@fahrzeug.Name</td>
+                <td>@fahrzeug.GetType()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<p>
+    @Html.ActionLink("Neues Fahrzeug anlegen", "Einfuegen", "Fahrzeug")
+    @Html.ActionLink("Bestehendes Fahrzeug loeschen", "Loeschen", "Fahrzeug")
+
+</p>
