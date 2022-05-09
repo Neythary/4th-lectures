@@ -6,12 +6,7 @@
 
 @model FahrzeugListeModel
 <p>Diese Fahrzeuge befinden sich derzeit in der Datenbank:</p>
-<div text-align="right" >
-     <label class="control-label">Suche</label>
-     <input asp-for="suche" class="form-control"/>
-     <span asp-validation-for="suche" class="text-danger"></span>
-     <input type="submit" value="Submit" class="btn bg-primary" />
-</div>
+
 <table class="table table-hover mb-0">
     <thead>
         <tr>
@@ -27,6 +22,20 @@
                 <td>@fahrzeug.Id</td>
                 <td>@fahrzeug.Name</td>
                 <td>@fahrzeug.GetType()</td>
+                <td>
+                    <a asp-action=Loeschen
+                       asp-asp-controller=Fahrzeug
+                       asp-route-id=@fahrzeug.Id>
+                       Loeschen
+                   </a>
+                </td>
+                <td>
+                    <a asp-action=Aktualisieren
+                       asp-controller=Fahrzeug
+                       asp-route-id=@fahrzeug.Id>
+                       Aktualisieren
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
@@ -35,6 +44,16 @@
 <br />
 <p>
     @Html.ActionLink("Neues Fahrzeug anlegen", "Einfuegen", "Fahrzeug")
-    @Html.ActionLink("Bestehendes Fahrzeug loeschen", "Loeschen", "Fahrzeug")
+    
+   
 
 </p>
+
+<br />
+
+<div>
+    <form asp-controller="Fahrzeug" asp-action="Suche" >
+        <input asp-for="suche" class="form-control" />
+        <input type="submit" value="Suche" class="btn bg-primary" />
+    </form>
+</div>

@@ -1,4 +1,5 @@
 ﻿using FahrzeugDatenbank;
+using Fahrzeuge;
 using FahrzeugeMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,8 @@ namespace FahrzeugeMVC.Controllers
 {
     public class FahrzeugController : Controller
     {
+       
+
         public IActionResult Index()
         {
             string connectionString = this.GetConnectionString();
@@ -19,6 +22,7 @@ namespace FahrzeugeMVC.Controllers
 
         private string GetConnectionString()
         {
+        //    return _konfigurationsLeser.LiesDatenbankVerbindungZurMariaDB();
             return "Server=localhost;User ID=root;Password=root;Database=FahrzeugDB;";
         }
 
@@ -74,13 +78,49 @@ namespace FahrzeugeMVC.Controllers
 
 
         [HttpPost]
-        public IActionResult Suche(FahrzeugListeModel model)
+        public IActionResult Suche(string suche)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(suche))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
             {
                 string connectionString = this.GetConnectionString();
                 var repository = new FahrzeugRepository(connectionString);
-                repository.Suche(model.suche);
+                List<FahrzeugDTO>? fahrzeuge = repository.HoleAlleFahrzeuge();
+
+                IEnumerable<FahrzeugDTO>? gefilterteFahrzeuge = fahrzeuge
+                    .Where(fahrzeug => !string.IsNullOrEmpty(suche)
+                        && fahrzeug.Name != null
+                        && fahrzeug.Name
+                        .ToLower()
+                        .Contains(suche.ToLower()));
+
+                var model = new FahrzeugListeModel(gefilterteFahrzeuge);
+
+                return View("index", model);
+            }
+        }
+        [HttpGet]
+        public IActionResult Aktualisieren()
+        {
+            var model = new FahrzeugAktualisierenModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Aktualisieren(FahrzeugAktualisierenModel model)
+        {
+            int id = Int32.Parse(Request.Path.ToString().Split('/').Last());
+
+            if (ModelState.IsValid
+                && !string.IsNullOrEmpty(model.Name)
+                && !string.IsNullOrEmpty(model.Type))
+            {
+                string connectionString = this.GetConnectionString();
+                var repository = new FahrzeugRepository(connectionString);
+                repository.AktualisierenFahrzeug(id, model.Name, model.Type);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -88,8 +128,6 @@ namespace FahrzeugeMVC.Controllers
                 return View(model);
             }
         }
-
-
     }
 
 }

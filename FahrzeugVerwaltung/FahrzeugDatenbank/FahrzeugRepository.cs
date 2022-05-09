@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
 
+
 namespace FahrzeugDatenbank
 {
+  
     public class FahrzeugRepository
     {
         private string _connectionString;
-
+       
         public void FuegeFahrzeugEin(string fahrzeugName, string fahrzeugTyp) {
             using var datenbankVerbindung = new MySqlConnection(_connectionString);
             datenbankVerbindung.Open();
@@ -34,12 +36,6 @@ namespace FahrzeugDatenbank
             using var kommando = new MySqlCommand(query, datenbankVerbindung);
             kommando.Parameters.AddWithValue("@id", id);
             kommando.ExecuteNonQuery();
-
-        }
-
-        public void Suche (string? eingabe)
-        {
-        
 
         }
 
@@ -70,6 +66,22 @@ namespace FahrzeugDatenbank
             }
 
             return fahrzeuge;
+        }
+
+        public void AktualisierenFahrzeug(int id, string fahrzeugName, string fahrzeugTyp)
+        {
+            using var datenbankVerbindung = new MySqlConnection(_connectionString);
+            datenbankVerbindung.Open();
+
+            const string query = "UPDATE fahrzeuge SET fahrzeug_name = @fahrzeug_name, id = @id, fahrzeug_typ = @fahrzeug_typ WHERE id = @id;";
+            using var kommando = new MySqlCommand(query, datenbankVerbindung);
+
+            kommando.Parameters.AddWithValue("@fahrzeug_name", fahrzeugName);
+            kommando.Parameters.AddWithValue("@fahrzeug_typ", fahrzeugTyp);
+            kommando.Parameters.AddWithValue("@id", id);
+            kommando.ExecuteNonQuery();
+
+
         }
     }
 }
