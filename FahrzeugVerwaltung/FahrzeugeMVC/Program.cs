@@ -1,9 +1,14 @@
+using FahrzeugeMVC.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<KonfigurationsLeser, KonfigurationsLeser>();
 
 var app = builder.Build();
+
+builder.Services.AddScoped<KonfigurationsLeser>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

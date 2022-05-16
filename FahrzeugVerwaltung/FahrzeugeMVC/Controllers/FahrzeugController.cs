@@ -22,8 +22,7 @@ namespace FahrzeugeMVC.Controllers
 
         private string GetConnectionString()
         {
-        //    return _konfigurationsLeser.LiesDatenbankVerbindungZurMariaDB();
-            return "Server=localhost;User ID=root;Password=root;Database=FahrzeugDB;";
+            return KonfigurationsLeser.LiesDatenbankVerbindungZurMariaDB();
         }
 
         [HttpGet]
