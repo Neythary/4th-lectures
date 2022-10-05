@@ -1,0 +1,25 @@
+﻿<Window x:Class="FahrzeugeWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FahrzeugeWPF"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel, IsDesignTimeCreatable=False}"
+        Title="Fahrzeuge" Height="450" Width="800">
+    <StackPanel>
+        <DataGrid Name="dgTest"
+                  CanUserAddRows="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Path=Fahrzeuge}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </StackPanel>
+</Window>
