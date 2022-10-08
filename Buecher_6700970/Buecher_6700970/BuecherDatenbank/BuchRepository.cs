@@ -38,5 +38,23 @@ namespace BuchDatenbank
             }
             return buecher;
         }
+
+        public void FuegeBuchEin(string buchTitel, string buchAutor, string buchTyp)
+        {
+            using var datenbankVerbindung = new MySqlConnection(_connectionString);
+            datenbankVerbindung.Open();
+
+            const string query = "INSERT INTO buecher (buecher_title, buecher_author, buecher_type)"
+                + "VALUES (@buecher_title, @buecher_author, @buecher_type);";
+            using var kommando = new MySqlCommand(query, datenbankVerbindung);
+            kommando.Parameters.AddWithValue("@buecher_title", buchTitel);
+            kommando.Parameters.AddWithValue("@buecher_author", buchAutor);
+            kommando.Parameters.AddWithValue("@buecher_type", buchTyp);
+            kommando.ExecuteNonQuery();
+
+        }
+
+
     }
+
 }

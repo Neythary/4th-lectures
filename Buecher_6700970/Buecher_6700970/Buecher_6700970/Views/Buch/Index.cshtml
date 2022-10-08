@@ -11,6 +11,7 @@
 
 <table style="float:right;width:40%;">
     <thead>
+        <tr><td></td><td>Aktuelle Bücher</td><td></td></tr>
         <tr>
         <td>ID</td>
         <td>Titel</td>
@@ -34,6 +35,7 @@
 
 <table style="width:40%;">
     <thead>
+        <tr><td></td><td>Archivierte Bücher</td><td></td></tr>
         <tr>
             <td>ID</td>
             <td>Titel</td>
@@ -54,3 +56,9 @@
         }
     </tbody>
 </table>
+
+<br />
+
+<p>
+    @Html.ActionLink("Neues Buch anlegen", "Einfuegen", "Buch")
+</p>

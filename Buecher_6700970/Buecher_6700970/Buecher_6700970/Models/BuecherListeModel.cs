@@ -13,7 +13,9 @@ namespace Buecher_6700970.Models
                 var buch = new Buch()
                 { id = BuchDTO.Id, title = BuchDTO.title, author = BuchDTO.author };
                 this.Buecher.Add(buch);
-            }          
+            }
+            
+            
         }
         public List<Buch> Buecher { get; set; } = new();
     }
