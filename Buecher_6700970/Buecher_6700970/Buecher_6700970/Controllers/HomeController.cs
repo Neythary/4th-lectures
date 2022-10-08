@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Programmentwurf_6700970.Models;
+﻿using Buecher_6700970.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Programmentwurf_6700970.Controllers
+namespace Buecher_6700970.Controllers
 {
     public class HomeController : Controller
     {
@@ -13,15 +13,11 @@ namespace Programmentwurf_6700970.Controllers
             _logger = logger;
         }
 
-
-        //GET /Programmentwurf_6700970/Index/
         public IActionResult Index()
         {
             return View();
         }
 
-
-        //GET /Programmentwurf_6700970/Privacy/
         public IActionResult Privacy()
         {
             return View();

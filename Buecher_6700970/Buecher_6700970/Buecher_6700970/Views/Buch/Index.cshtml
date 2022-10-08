@@ -1,0 +1,56 @@
+﻿@using BuchDatenbank
+@using Buecher
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model BuecherListeModel
+
+
+<table style="float:right;width:40%;">
+    <thead>
+        <tr>
+        <td>ID</td>
+        <td>Titel</td>
+        <td>Autor</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var buch in Model.Buecher )
+        {
+            if (BuchDTO.type == "aktiv")
+            {
+                <tr>
+                    <td>@buch.id</td>
+                    <td>@buch.title</td>
+                    <td>@buch.author</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<table style="width:40%;">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Titel</td>
+            <td>Autor</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var buch in Model.Buecher)
+        {
+            if (BuchDTO.type == "archiv")
+            {
+                <tr>
+                    <td>@buch.id</td>
+                    <td>@buch.title</td>
+                    <td>@buch.author</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

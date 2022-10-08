@@ -1,0 +1,47 @@
+﻿@model BuecherModel
+
+@{
+    ViewData["Title"] = "Bücher";
+}
+
+<h1>Bücher</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Aktive Bücher
+            </th>
+            <th></th>
+            <th>
+                Archivierte Bücher
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>Titel</th>
+            <th>Autor</th>
+            <th>Titel</th>
+            <th>Autor</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var buch in Model.Buecher) {
+        <tr>
+            <td>
+                
+            </td>
+            <td>
+                
+            </td>
+            
+            <td>
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

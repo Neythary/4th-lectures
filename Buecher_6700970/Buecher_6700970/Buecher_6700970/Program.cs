@@ -1,15 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Programmentwurf_6700970.Controllers;
-using Programmentwurf_6700970.Data;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<Programmentwurf_6700970Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Programmentwurf_6700970Context") ?? throw new InvalidOperationException("Connection string 'Programmentwurf_6700970Context' not found."))
-    );
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IKonfigurationsLeser, KonfigurationsLeser>();
 
 var app = builder.Build();
 
