@@ -21,11 +21,11 @@ namespace FahrzeugeWPF
         
         private async void InitialisiereDasViewModell()
         {
-            var fahrzeuge = await _modell.LadeAlleFahrzeuge();
-            foreach (var fahrzeug in fahrzeuge)
-            {
-                this.Fahrzeuge.Add(fahrzeug) ;
-            }
+           var fahrzeuge = await _modell.LadeAlleFahrzeuge();
+          foreach (FahrzeugeModell fahrzeug in fahrzeuge)
+         {
+             this.Fahrzeuge.Add(fahrzeug);
+         }
         }
 
         public ObservableCollection<Fahrzeug> Fahrzeuge { get; } = new();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Buecher_6700970.Models
 {
+    // Model zum Einfügen von neuen Büchern über ein Formular
     public class BuecherEinfuegenModel
     {
         [Required]
@@ -14,11 +15,12 @@ namespace Buecher_6700970.Models
         [Required]
         public string? Type { get; set; }
 
-        public List<SelectListItem> BuchTypen { get; private set; }
-            = new()
+
+        // Richtet für den Parameter "Type" eine Dropdownliste ein, sodass nur die erwünschten Typen eingetragen werden können
+        public List<SelectListItem> BuchTypen { get; private set; } = new()
             {
-                new SelectListItem("Aktiv", "Aktiv"),
-                new SelectListItem("Archiv", "Archiv")
+                new SelectListItem("aktiv", "aktiv", true),
+                new SelectListItem("archiv", "archiv")
             };
 
       

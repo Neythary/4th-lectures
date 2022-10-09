@@ -1,0 +1,25 @@
+CREATE DATABASE IF NOT EXISTS BuecherDB;
+GRANT ALL PRIVILEGES ON BuecherDB.* TO 'admin'@'%';
+FLUSH PRIVILEGES;
+USE BuecherDB;
+
+DROP TABLE IF EXISTS aktuelle_buecher;
+CREATE TABLE aktuelle_buecher(
+	id INT NOT NULL AUTO_INCREMENT,
+	buecher_title VARCHAR(100) NOT NULL,
+	buecher_author VARCHAR(100) NOT NULL,
+	buecher_type VARCHAR(100) NOT NULL,
+	PRIMARY KEY ( id ));
+
+DROP TABLE IF EXISTS archivierte_buecher;
+CREATE TABLE archivierte_buecher(
+	id INT NOT NULL AUTO_INCREMENT,
+	buecher_title VARCHAR(100) NOT NULL,
+	buecher_author VARCHAR(100) NOT NULL,
+	buecher_type VARCHAR(100) NOT NULL,
+	PRIMARY KEY ( id ));
+
+INSERT INTO aktuelle_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Der Herr der Ringe', 'J.R.R. Tolkien', 'aktiv');
+INSERT INTO aktuelle_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Das Silmarilion', 'J.R.R. Tolkien', 'aktiv');
+INSERT INTO archivierte_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Die wilden Kerle ', 'Joachim Masannek', 'archiv');
+INSERT INTO archivierte_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Wildernacht', 'Joachim Masannek', 'archiv');

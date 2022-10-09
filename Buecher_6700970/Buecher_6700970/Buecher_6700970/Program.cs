@@ -1,7 +1,10 @@
+using Buecher_6700970.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IKonfigurationsLeser, KonfigurationsLeser>();
 
 var app = builder.Build();
 

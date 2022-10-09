@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
@@ -17,43 +18,113 @@ namespace BuchDatenbank
         }
 
 
-        public List<BuchDTO> HoleAlleBuecher()
+        public List<BuchDTO> HoleAktuelleBuecher()
         {
-            using var datenbankVerbindung = new MySqlConnection(_connectionString);
-            datenbankVerbindung.Open();
+                     
+                using var datenbankVerbindung = new MySqlConnection(_connectionString);
+                using var datenbankVerbindung2 = new MySqlConnection(_connectionString);
+                datenbankVerbindung.Open();
+                datenbankVerbindung2.Open();
 
-            const string query = "SELECT id, buecher_title, buecher_author FROM buecher";
-            using var kommando = new MySqlCommand(query, datenbankVerbindung);
-            var reader = kommando.ExecuteReader();
+                const string query = "SELECT * FROM archivierte_buecher;";
+                const string query2 = "SELECT * FROM aktuelle_buecher;";
+                using var kommando = new MySqlCommand(query, datenbankVerbindung);
+                using var kommando2 = new MySqlCommand(query2, datenbankVerbindung2);
+                var reader = kommando.ExecuteReader();
+                var reader2 = kommando2.ExecuteReader();
 
-            List<BuchDTO> buecher = new();
-            while (reader.Read())
+                List<BuchDTO> buchliste = new();
+                while (reader.Read())
+                {                
+                        var buch = new BuchDTO();
+                        buch.Id = reader.GetInt32(0);
+                        buch.title = reader.GetString(1);
+                        buch.author = reader.GetString(2);
+                        buch.type = reader.GetString(3);
+                        
+                        buchliste.Add(buch);
+                
+                }
+                while (reader2.Read())
+                {
+                    var buch = new BuchDTO();
+                    buch.Id = reader2.GetInt32(0);
+                    buch.title = reader2.GetString(1);
+                    buch.author = reader2.GetString(2);
+                    buch.type = reader2.GetString(3);
+
+                    buchliste.Add(buch);
+                }
+                return buchliste;
+                
+           
+        }
+
+        /* public List<BuchDTO> HoleArchivBuecher()
+        {
+            try
             {
-                var buch = new BuchDTO();
-                BuchDTO.Id = reader.GetInt32(0);
-                BuchDTO.title = reader.GetString(1);
-                BuchDTO.author = reader.GetString(2);
-               
-                buecher.Add(buch);
+                using var datenbankVerbindung = new MySqlConnection(_connectionString);
+                datenbankVerbindung.Open();
+
+                const string query = "SELECT id, buecher_title, buecher_author, buecher_type FROM archivierte_buecher";
+                using var kommando = new MySqlCommand(query, datenbankVerbindung);
+                var reader = kommando.ExecuteReader();
+
+                List<BuchDTO> archivliste = new();
+                while (reader.Read())
+                {
+                    var buch = new BuchDTO();
+                    buch.Id = reader.GetInt32(0);
+                    buch.title = reader.GetString(1);
+                    buch.author = reader.GetString(2);
+                    buch.type = reader.GetString(3);
+
+                    archivliste.Add(buch);
+
+                }
+                return archivliste;
+
             }
-            return buecher;
-        }
+            catch (Exception Verbindungsaufbau)
+            {
 
-        public void FuegeBuchEin(string buchTitel, string buchAutor, string buchTyp)
+                throw;
+            }
+        }*/
+
+        public void FuegeBuchEin(string buchTitel, string buchAutor)
         {
-            using var datenbankVerbindung = new MySqlConnection(_connectionString);
-            datenbankVerbindung.Open();
-
-            const string query = "INSERT INTO buecher (buecher_title, buecher_author, buecher_type)"
-                + "VALUES (@buecher_title, @buecher_author, @buecher_type);";
-            using var kommando = new MySqlCommand(query, datenbankVerbindung);
-            kommando.Parameters.AddWithValue("@buecher_title", buchTitel);
-            kommando.Parameters.AddWithValue("@buecher_author", buchAutor);
-            kommando.Parameters.AddWithValue("@buecher_type", buchTyp);
-            kommando.ExecuteNonQuery();
+            
+                using var datenbankVerbindung = new MySqlConnection(_connectionString);
+                datenbankVerbindung.Open();
+            
+                    const string query = "INSERT INTO aktuelle_buecher (buecher_title, buecher_author)"
+                        + "VALUES (@buecher_title, @buecher_author);";
+                    using var kommando = new MySqlCommand(query, datenbankVerbindung);
+                    kommando.Parameters.AddWithValue("@buecher_title", buchTitel);
+                    kommando.Parameters.AddWithValue("@buecher_author", buchAutor);
+                   
+                    kommando.ExecuteNonQuery();
+            
 
         }
 
+        public void FuegeBuchEin2(string buchTitle, string buchAutor)
+        {
+            
+                using var datenbankVerbindung = new MySqlConnection(_connectionString);
+                datenbankVerbindung.Open();
+
+                const string query = "INSERT INTO archivierte_buecher (buecher_title, buecher_author)"
+                    + "VALUES (@buecher_title, @buecher_author);";
+                using var kommando = new MySqlCommand(query, datenbankVerbindung);
+                kommando.Parameters.AddWithValue("@buecher_title", buchTitle);
+                kommando.Parameters.AddWithValue("@buecher_author", buchAutor);
+
+                kommando.ExecuteNonQuery();
+           
+        }
 
     }
 

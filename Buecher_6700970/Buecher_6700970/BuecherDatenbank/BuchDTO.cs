@@ -8,10 +8,10 @@ namespace BuchDatenbank
 {
     public class BuchDTO
     {
-        public static int Id { get; set; }
-        public static string? title { get; set; }
-        public static string? author { get; set; }
-        public static string? type { get; set; }
+        public int Id { get; set; }
+        public string? title { get; set; }
+        public string? author { get; set; }
+        public string? type { get; set; }
 
     }
 }

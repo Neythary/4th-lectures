@@ -2,6 +2,7 @@
 {
     public class Buch
     {
+        // implementiert die Oberklasse Buch mit den Parametern Title & Author
         public Buch()
         {
             this.title = "";
