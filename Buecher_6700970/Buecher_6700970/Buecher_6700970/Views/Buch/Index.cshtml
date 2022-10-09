@@ -12,33 +12,34 @@
 
 <table class="table table-hover mb-0" style="float:right;width:40%;">
    
+
+<!-- View für die Auflistung der Archivierten Bücher -->
    <thead>
-        <tr><td></td><td>Archivierte Bücher</td><td></td></tr>
+        <tr><td>Archivierte Bücher</td><td></td></tr>
         <tr>
-        <td>ID</td>
-        <td>Titel</td>
-        <td>Autor</td>
+            <td>Titel</td>
+            <td>Autor</td>
         </tr>
     </thead>
     <tbody>
         @foreach (var buch in Model.Archiviert)
         {
-                <tr>            
-                    <td>@buch.id</td>
-                    <td>@buch.title</td>
-                    <td>@buch.author</td>
-                </tr>
-            
-            
+            <tr>                  
+                <td>@buch.title</td>
+                <td>@buch.author</td>
+            </tr>            
         }
     </tbody>
 </table>
 
 <table class="table table-hover mb-0" style="width:40%;">
+
+
+<!-- View für die Auflistung der Aktuellen Bücher -->
     <thead>
-        <tr><td></td><td>Aktuelle Bücher</td><td></td></tr>
+        </td><td>Aktuelle Bücher</td><td></td></tr>
         <tr>
-            <td>ID</td>
+            
             <td>Titel</td>
             <td>Autor</td>
         </tr>
@@ -47,7 +48,7 @@
         @foreach (var buch in Model.Aktive)
         {
             <tr>
-                <td>@buch.id</td>
+                
                     <td>@buch.title</td>
                     <td>@buch.author</td>
                 </tr>

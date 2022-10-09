@@ -2,7 +2,8 @@
 {
     public class Buch
     {
-        // implementiert die Oberklasse Buch mit den Parametern Title & Author
+        // implementiert die Oberklasse Buch mit den notwendigen Parametern Title & Author, sowie zwei zusätzlichen 
+        // Parametern Id & Type
         public Buch()
         {
             this.title = "";

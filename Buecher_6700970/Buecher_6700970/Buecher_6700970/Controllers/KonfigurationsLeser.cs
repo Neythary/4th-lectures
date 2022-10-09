@@ -16,8 +16,6 @@
             return _configuration.GetConnectionString("MariaDB");
         }
 
-        
-
     }
 
     public interface IKonfigurationsLeser

@@ -23,22 +23,11 @@ namespace Buecher_6700970.Controllers
             return View(model);
         }
 
-        /*public IActionResult Index2()
-        {
-            string connectionString = this.GetConnectionString();
-            var repository = new BuchRepository(connectionString);
-            List<BuchDTO>? buecher1 = repository.HoleArchivBuecher();
-
-            var model = new BuecherListeModel(buecher1);
-
-            return View(model);
-        }*/
-
         // Versuch die DB-Verbindung mittels Dependency Injection zu verwirklichen schlug fehl, dafür 
         // sind die beiden nachfolgenden auskommentierten Aufrufe gedacht gewesen.
 
-        
-        
+        //KonfigurationsLeser _konfigurationsLeser = new KonfigurationsLeser(configuration);
+
         //private string GetConnectionString()
         //{
         //    return _konfigurationsLeser.LiesDatenbankVerbindungZurMariaDB();
@@ -62,7 +51,7 @@ namespace Buecher_6700970.Controllers
             return View(model);
         }
 
-        // Nimmt das Formular vom Browser entgegen
+        // Nimmt das Formular vom Browser entgegen um ein neues "aktuelles" Buch einzufügen
         [HttpPost]
         public IActionResult Einfuegen(BuecherEinfuegenModel model)
         {
@@ -70,7 +59,7 @@ namespace Buecher_6700970.Controllers
             {
                 string connectionString = this.GetConnectionString();
                 var repository = new BuchRepository(connectionString);
-                repository.FuegeBuchEin(model.Title, model.Author);
+                repository.FuegeBuchEin(model.Title, model.Author, model.Type);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -79,6 +68,8 @@ namespace Buecher_6700970.Controllers
             }
         }
 
+
+        // Nimmt das Formular vom Browser entgegen um ein neues "archiviertes" Buch einzufügen
         [HttpPost]
         public IActionResult Einfuegen2(BuecherEinfuegenModel model)
         {
@@ -86,7 +77,7 @@ namespace Buecher_6700970.Controllers
             {
                 string connectionString = this.GetConnectionString();
                 var repository = new BuchRepository(connectionString);
-                repository.FuegeBuchEin2(model.Title, model.Author);
+                repository.FuegeBuchEin2(model.Title, model.Author, model.Type);
                 return RedirectToAction(nameof(Index));
             }
             else

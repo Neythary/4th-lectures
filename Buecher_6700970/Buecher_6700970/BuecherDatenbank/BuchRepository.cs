@@ -18,6 +18,9 @@ namespace BuchDatenbank
         }
 
 
+        // Importiert alle Bücher aus beiden Tabellen der Datenbank und fügt sie in eine gemeinsam Liste ein
+        // Dies ist auch der Grund, dass die IDs der ursprünglich vorhandenen Bücher korrekt zugeordnet sind
+        // über das Formular eingefügte Bücher aber gemeinsam in der ID incrementiert werden
         public List<BuchDTO> HoleAktuelleBuecher()
         {
                      
@@ -60,67 +63,39 @@ namespace BuchDatenbank
            
         }
 
-        /* public List<BuchDTO> HoleArchivBuecher()
-        {
-            try
-            {
-                using var datenbankVerbindung = new MySqlConnection(_connectionString);
-                datenbankVerbindung.Open();
-
-                const string query = "SELECT id, buecher_title, buecher_author, buecher_type FROM archivierte_buecher";
-                using var kommando = new MySqlCommand(query, datenbankVerbindung);
-                var reader = kommando.ExecuteReader();
-
-                List<BuchDTO> archivliste = new();
-                while (reader.Read())
-                {
-                    var buch = new BuchDTO();
-                    buch.Id = reader.GetInt32(0);
-                    buch.title = reader.GetString(1);
-                    buch.author = reader.GetString(2);
-                    buch.type = reader.GetString(3);
-
-                    archivliste.Add(buch);
-
-                }
-                return archivliste;
-
-            }
-            catch (Exception Verbindungsaufbau)
-            {
-
-                throw;
-            }
-        }*/
-
-        public void FuegeBuchEin(string buchTitel, string buchAutor)
+        // Funktion für das Einfügen eines neuen "Aktuellen" Buches in die MariaDB
+        public void FuegeBuchEin(string buchTitel, string buchAutor, string buchType)
         {
             
                 using var datenbankVerbindung = new MySqlConnection(_connectionString);
                 datenbankVerbindung.Open();
             
-                    const string query = "INSERT INTO aktuelle_buecher (buecher_title, buecher_author)"
-                        + "VALUES (@buecher_title, @buecher_author);";
+                    const string query = "INSERT INTO aktuelle_buecher (buecher_title, buecher_author, buecher_type)"
+                        + "VALUES (@buecher_title, @buecher_author, @buecher_type);";
                     using var kommando = new MySqlCommand(query, datenbankVerbindung);
                     kommando.Parameters.AddWithValue("@buecher_title", buchTitel);
                     kommando.Parameters.AddWithValue("@buecher_author", buchAutor);
+                    kommando.Parameters.AddWithValue("@buecher_type", buchType);
                    
                     kommando.ExecuteNonQuery();
             
 
         }
 
-        public void FuegeBuchEin2(string buchTitle, string buchAutor)
+
+        // Funktion für das Einfügen eines neuen "Archivierten" Buches in die MariaDB
+        public void FuegeBuchEin2(string buchTitle, string buchAutor, string buchType)
         {
             
                 using var datenbankVerbindung = new MySqlConnection(_connectionString);
                 datenbankVerbindung.Open();
 
-                const string query = "INSERT INTO archivierte_buecher (buecher_title, buecher_author)"
-                    + "VALUES (@buecher_title, @buecher_author);";
+                const string query = "INSERT INTO archivierte_buecher (buecher_title, buecher_author, buecher_type)"
+                    + "VALUES (@buecher_title, @buecher_author, @buecher_type);";
                 using var kommando = new MySqlCommand(query, datenbankVerbindung);
                 kommando.Parameters.AddWithValue("@buecher_title", buchTitle);
                 kommando.Parameters.AddWithValue("@buecher_author", buchAutor);
+                kommando.Parameters.AddWithValue("@buecher_type", buchType);
 
                 kommando.ExecuteNonQuery();
            

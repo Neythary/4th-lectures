@@ -4,7 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IKonfigurationsLeser, KonfigurationsLeser>();
+
+// notwendig für die Dependency Injection
+//builder.Services.AddScoped<IKonfigurationsLeser, KonfigurationsLeser>();
 
 var app = builder.Build();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Buecher
 {
-    // initialisiert die Klasse Aktiv als Kind von Buch mit entsprechendem Typ-Attribut
+    // initialisiert die Klasse Aktiv als Kind von Buch mit entsprechendem Type-Attribut
     public class Aktiv : Buch
     {
         public Aktiv()

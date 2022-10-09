@@ -6,6 +6,8 @@ namespace Buecher_6700970.Models
     public class BuecherListeModel
     {
         // Model um die Bücher aus der Datenbank bzw. die Datenbankobjekte (DTO) in Listen zu übertragen
+        // Für Aktiv & Archiv jeweils separate Listen, der Parameter Type wird in der Klasse definiert und wird
+        // aus diesem Grund hier nicht gesetzt über das DTO
         public BuecherListeModel(IEnumerable<BuchDTO> buecher)
         {
             foreach (var buecherDTO in buecher)
@@ -27,7 +29,7 @@ namespace Buecher_6700970.Models
 
 
 
-        // Legt neue Listen an in die die Bücher aus der DB aufgenommen werden
+        // Legt neue Listen an in die die Bücher durch das Model eingesetzt werden
         public List<Buch> Aktive { get; set; } = new();
  
 
