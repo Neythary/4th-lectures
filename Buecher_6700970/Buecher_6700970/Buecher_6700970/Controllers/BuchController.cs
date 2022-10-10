@@ -17,29 +17,31 @@ namespace Buecher_6700970.Controllers
             this._konfigurationsLeser = konfigurationsLeser;
         }
 
+        // liest die Verbindungsparameter aus der appsettings.json ein
         public string GetConnectionString()
         {
             return _konfigurationsLeser.LiesDatenbankVerbindungZurMariaDB(); 
         }
 
+        // liest die Daten der DB in ein Model ein und gibt die entsprechende View zurück
+        // das Einlesen wird separat implementiert
         public IActionResult Index()
         {
+            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); 
 
-            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); //Daten werden in ein Model eingelesen
-
-            return View(model); //View wird erstellt
+            return View(model); 
         }
 
+        // Implementierung der Dateneinlesung, getrennt nach Tabelle in der DB auch hier in zwei verschiedene Tabellen
+        // Das Repository ist für alle Datenbankabfragen zuständig und notwendig
+        // Das Auslesen der im Repository getätigten Abfragen erfolgt in Form von Threads
+        // die parallelisiert das Auslesen übernehmen
         public BuecherListeModel LeseDatenInModel(string connectionString)
         {
-            //erstellen zweier Listen, welche die Daten der angezeigten Tabellen beinhaltet
             List<BuchDTO> aktuelleBuecher = new();
             List<BuchDTO> archivierteBuecher = new();
-
-            //Initialisieren des repositorys, in welchem die Datenbankabfragen stattfinden
             var repository = new BuchRepository(connectionString);
 
-            //Auslesen der beiden Tabellen und befüllen der Listen mit den Daten in zwei Unterschiedlichen Threads (zur Parallelisierung)
             Thread aktuelleBuecherLesen = new Thread(() =>
             {
                 aktuelleBuecher = repository.HoleAktuelleBuecher();
@@ -50,7 +52,6 @@ namespace Buecher_6700970.Controllers
                 archivierteBuecher = repository.HoleArchivierteBuecher();
             });
 
-            //Ausführen der oben erstellten Threads
             aktuelleBuecherLesen.Start();
             archivierteBuecherLesen.Start();
 
@@ -60,30 +61,36 @@ namespace Buecher_6700970.Controllers
             return new BuecherListeModel(aktuelleBuecher, archivierteBuecher);
         }
 
+        // Funktion zum Verschieben von Büchern zwischen den Tabellen der DB
+        // über den Umweg des repositorys
         public void Verschieben(BuchDTO buch, string quelle, string ziel)
         {
             string connectionString = GetConnectionString();
-            //Repository zum verschieben wird Initialisiert
             var repository = new BuchRepository(connectionString);
-            repository.Verschieben(buch, quelle, ziel); //Verschieben des Buches (Löschen aus der 1. Tabelle und Einfügen in die andere Tabelle) wird ausgeführt
+            repository.Verschieben(buch, quelle, ziel); 
         }
 
+        // Implementiert eine Action die über Index.cshtml aufgerufen wird zum verschieben in die Tabelle "aktuelle_buecher"
+        // Lädt nach erfolgreichem Verschieben die Tabellen nochmals neu um sie korrekt anzuzeigen
+        // und gibt anschließend die entsprechende View aus
         public IActionResult VerschiebeNachAktuell(BuchDTO buch)
         {
-            Verschieben(buch, "archivierte_buecher", "aktuelle_buecher"); //Start des verschiebens eines archivierten Buches, zu einem aktuellen Buch
+            Verschieben(buch, "archivierte_buecher", "aktuelle_buecher"); 
+            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); 
 
-            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); //Neues Laden der beiden Tabellen, nach obiger Verschiebung
-
-            return View("Views/Buch/Index.cshtml", model); //erstellen der View
+            return View("Views/Buch/Index.cshtml", model); 
         }
 
+        // Implementiert eine Action die über Index.cshtml aufgerufen wird zum verschieben in die Tabelle "archivierte_buecher"
+        // Lädt nach erfolgreichem Verschieben die Tabellen nochmals neu um sie korrekt anzuzeigen
+        // und gibt anschließend die entsprechende View aus
         public IActionResult VerschiebeNachArchiviert(BuchDTO buch)
         {
-            Verschieben(buch, "aktuelle_buecher", "archivierte_buecher"); //Start des verschiebens eines aktuellen Buches, zu einem archivierten Buch
+            Verschieben(buch, "aktuelle_buecher", "archivierte_buecher"); 
 
-            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); //Neues Laden der beiden Tabellen, nach obiger Verschiebung
+            BuecherListeModel model = LeseDatenInModel(GetConnectionString());
 
-            return View("Views/Buch/Index.cshtml", model); //erstellend der View
+            return View("Views/Buch/Index.cshtml", model);
         }
 
         // Beim erneuten Versuch die DI umzusetzen kam es zu einem neuartigen Fehler, der nicht auf Fehler in 
@@ -105,12 +112,8 @@ namespace Buecher_6700970.Controllers
         // Verbindunsinfomationen für den Aufbau der Datenbankverbindung - Hard Codiert.
         private string GetConnectionString()
         {
-            
                 return "Server=localhost;User ID=admin;Password=admin;Database=BuecherDB;";
-            
-            
         }
-
 
         // Erzeugt das Model für das Eingabe-Formular um neue Bücher in die DB einzufügen
         [HttpGet]

@@ -5,7 +5,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Bücher</title>
+    <!-- Legt den Titel fest, der auf dem Browser-Reiter angezeigt wird -->
+    <title>@ViewData["Title"] - Bücher</title> 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Buecher_6700970.styles.css" asp-append-version="true" />
@@ -14,6 +15,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
+                <!-- 
+                    Legt den Titel fest, der auf der Homepage oben links angezeigt wird und 
+                    weißt diesem Titel einen Link zurück zur Homepage zu
+                -->
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bücher</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -22,12 +27,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <!-- Separater Link zurück zur Homepage, der bei Projekterstellung standardmäßig vorhanden ist -->
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <!-- Link führt zur Standardmäßig vorhandenen Privacy-Seite, die hier allerdings nicht benötigt wird
-                            <li class="nav-item">
+                        <!-- 
+                            Link führt zur Standardmäßig vorhandenen Privacy-Seite, die hier allerdings nicht benötigt wird
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>-->
+                        </li>
+                        -->
+                        <!-- Link zur Seite mit den zu Erarbeitenden Funktionen -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Buch" asp-action="Index">Bücher</a> 
                         </li>
@@ -44,6 +53,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
+            <!-- Schriftzug in der Fußzeile, sowie standardmäßig vorhandener, jetzt auskommentierter, Link zur Privacy-Seite -->
             &copy; 2022 - Bücher <!-- - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy --></a>
         </div>
     </footer>

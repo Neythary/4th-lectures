@@ -4,14 +4,14 @@ namespace Buecher_6700970.Models
 {
     public class BuecherListeModel
     {
-        // Legt neue Listen an in die die Bücher durch das Model eingesetzt werden
+        // Legt zwei neue Listen an in die die Bücher durch das Model eingesetzt werden
         public List<BuchDTO> Aktive { get; set; } = new();
- 
         public List<BuchDTO> Archiviert { get; set; } = new();
 
+        // Fügt in beide Listen die jeweils in der Datenbank vorhandenen Bücher ein 
+        // unter zur Hilfe nahme des Datentransferobjekts
         public BuecherListeModel(IEnumerable<BuchDTO> aktuelleBuecher, IEnumerable<BuchDTO> archivierteBuecher)
         {
-            //Befüllen der beiden Listen
             foreach (BuchDTO buchDTO in aktuelleBuecher)
             {
                 Aktive.Add(buchDTO);

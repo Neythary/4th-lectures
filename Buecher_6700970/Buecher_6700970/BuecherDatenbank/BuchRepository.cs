@@ -18,7 +18,7 @@ namespace BuchDatenbank
         }
 
 
-        // Importiert alle Bücher aus beiden Tabellen der Datenbank und fügt sie in eine gemeinsam Liste ein
+        // Importiert die aktuellen Bücher aus beiden Tabellen der Datenbank und fügt sie in eine Liste ein
         public List<BuchDTO> HoleAktuelleBuecher()
         {
 
@@ -43,6 +43,7 @@ namespace BuchDatenbank
             return buchliste;
         }
 
+        // Importiert die archivierten Bücher aus beiden Tabellen der Datenbank und fügt sie in eine Liste ein
         public List<BuchDTO> HoleArchivierteBuecher()
         {
             using var datenbankVerbindung2 = new MySqlConnection(_connectionString);
@@ -64,18 +65,21 @@ namespace BuchDatenbank
             return buchliste;
         }
 
+        // über den BuchController angsprochene Funktion zum Verschieben von Büchern
+        // zunächst muss das Buch in der ursprungstabelle gelöscht werden
+        // zusätzlich muss das Buch in der neuen Tabelle neu angelegt werden
         public void Verschieben(BuchDTO buch, string quelle, string ziel)
         {
             using var db_Verbindung = new MySqlConnection(_connectionString);
 
-            Loeschen(buch, quelle); //Lösche das Buch aus der Quelltabelle
+            Loeschen(buch, quelle); 
 
-            FuegeBuchEin(buch, ziel); //Füge das buch der Zieltabelle hinzu
+            FuegeBuchEin(buch, ziel); 
         }
 
+        // Funktion zum Löschen eines Buches aus seiner Ursprungstabelle
         public void Loeschen(BuchDTO buch, string quelle)
         {
-            //Datenbankverbindung aufbauen und Befehl zum Löschen aus der Quelladresse wird hier ausgeführt
             using var datenbankVerbindung = new MySqlConnection(_connectionString);
             datenbankVerbindung.Open();
 
@@ -89,9 +93,9 @@ namespace BuchDatenbank
             datenbankVerbindung.Close();
         }
 
+        // Funktion zum Einfügen eines Buches in seine neue Tabelle
         public void FuegeBuchEin(BuchDTO buch, string ziel)
         {
-            //Datenbankverbindung aufbauen und Befehl zum Einfuegen in die Zieladresse wird hier ausgeführt
             using var datenbankVerbindung = new MySqlConnection(_connectionString);
             datenbankVerbindung.Open();
 
@@ -105,7 +109,10 @@ namespace BuchDatenbank
             datenbankVerbindung.Close();
         }
 
-
+        // Beim erneuten Versuch die DI umzusetzen kam es zu einem neuartigen Fehler, der nicht auf Fehler in 
+        // der Implementierung der DI hinweist
+        // Daraufhin wurde alles nochmal umgearbeitet, auch im hinblick auf die Aufgabenstellung Threads für 
+        // die Daten einbindung zu verwenden
 
         /*
         // Funktion für das Einfügen eines neuen "Aktuellen" Buches in die MariaDB
@@ -123,15 +130,11 @@ namespace BuchDatenbank
             kommando.Parameters.AddWithValue("@buecher_type", buchType);
 
             kommando.ExecuteNonQuery();
-
-
         }
-
 
         // Funktion für das Einfügen eines neuen "Archivierten" Buches in die MariaDB
         public void FuegeBuchEin2(string buchTitle, string buchAutor, string buchType)
         {
-
             using var datenbankVerbindung = new MySqlConnection(_connectionString);
             datenbankVerbindung.Open();
 
@@ -143,7 +146,6 @@ namespace BuchDatenbank
             kommando.Parameters.AddWithValue("@buecher_type", buchType);
 
             kommando.ExecuteNonQuery();
-
         }
 
         public void VerschiebenBuch(string buchTitel, string buchAutor, string buchTyp)
@@ -184,7 +186,6 @@ namespace BuchDatenbank
                 kommando2.Parameters.AddWithValue("@title", buchTitel);
                 kommando2.ExecuteNonQuery();
             }
-
         }*/
 
     }
