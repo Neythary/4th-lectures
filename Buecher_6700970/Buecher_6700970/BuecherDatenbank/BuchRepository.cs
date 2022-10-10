@@ -19,8 +19,6 @@ namespace BuchDatenbank
 
 
         // Importiert alle Bücher aus beiden Tabellen der Datenbank und fügt sie in eine gemeinsam Liste ein
-        // Dies ist auch der Grund, dass die IDs der ursprünglich vorhandenen Bücher korrekt zugeordnet sind
-        // über das Formular eingefügte Bücher aber gemeinsam in der ID incrementiert werden
         public List<BuchDTO> HoleAktuelleBuecher()
         {
                      

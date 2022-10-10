@@ -51,15 +51,25 @@ namespace Buecher_6700970.Controllers
             return View(model);
         }
 
-        // Nimmt das Formular vom Browser entgegen um ein neues "aktuelles" Buch einzufügen
+        // Nimmt das Formular vom Browser entgegen um ein neues Buch einzufügen
+        // Der erste if-Zweig fügt ein "aktuelles" Buch ein
+        // Der zweite if-Zweig fügt ein "archiviertes" Buch ein
+        // Der else-Zweig zeigt die Listen ohne Änderung an
         [HttpPost]
         public IActionResult Einfuegen(BuecherEinfuegenModel model)
         {
-            if (ModelState.IsValid && !string.IsNullOrEmpty(model.Title) && !string.IsNullOrEmpty(model.Author))
+            if (ModelState.IsValid && !string.IsNullOrEmpty(model.Title) && !string.IsNullOrEmpty(model.Author) && model.Type=="aktiv")
             {
                 string connectionString = this.GetConnectionString();
                 var repository = new BuchRepository(connectionString);
-                repository.FuegeBuchEin(model.Title, model.Author, model.Type);
+                repository.FuegeBuchEin(model.Title, model.Author, "aktiv");
+                return RedirectToAction(nameof(Index));
+            }
+            else if (ModelState.IsValid && !string.IsNullOrEmpty(model.Title) && !string.IsNullOrEmpty(model.Author) && model.Type == "archiv")
+            {
+                string connectionString = this.GetConnectionString();
+                var repository = new BuchRepository(connectionString);
+                repository.FuegeBuchEin2(model.Title, model.Author, "archiv");
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -69,21 +79,6 @@ namespace Buecher_6700970.Controllers
         }
 
 
-        // Nimmt das Formular vom Browser entgegen um ein neues "archiviertes" Buch einzufügen
-        [HttpPost]
-        public IActionResult Einfuegen2(BuecherEinfuegenModel model)
-        {
-            if(ModelState.IsValid && !string.IsNullOrEmpty(model.Title) && !string.IsNullOrEmpty(model.Author))
-            {
-                string connectionString = this.GetConnectionString();
-                var repository = new BuchRepository(connectionString);
-                repository.FuegeBuchEin2(model.Title, model.Author, model.Type);
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return View(model);
-            }
-        }
+       
     }
 }
