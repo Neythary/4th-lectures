@@ -34,8 +34,8 @@ namespace BuchDatenbank
             while (reader.Read())
             {
                 var buch = new BuchDTO();
-                buch.title = reader.GetString(0);
-                buch.author = reader.GetString(1);
+                buch.title = reader.GetString(1);
+                buch.author = reader.GetString(2);
 
                 buchliste.Add(buch);
 
@@ -57,8 +57,8 @@ namespace BuchDatenbank
             while (reader2.Read())
             {
                 var buch = new BuchDTO();
-                buch.title = reader2.GetString(0);
-                buch.author = reader2.GetString(1);
+                buch.title = reader2.GetString(1);
+                buch.author = reader2.GetString(2);
 
                 buchliste.Add(buch);
             }
@@ -83,10 +83,10 @@ namespace BuchDatenbank
             using var datenbankVerbindung = new MySqlConnection(_connectionString);
             datenbankVerbindung.Open();
 
-            string Loeschen = "DELETE FROM " + quelle + " WHERE buecher_title = @buecher_title AND buecher_author = @buecher_author";
+            string Loeschen = "DELETE FROM " + quelle + " WHERE titel = @titel AND autor = @autor";
             using var command = new MySqlCommand(Loeschen, datenbankVerbindung);
-            command.Parameters.AddWithValue("buecher_title", buch.title);
-            command.Parameters.AddWithValue("buecher_author", buch.author);
+            command.Parameters.AddWithValue("titel", buch.title);
+            command.Parameters.AddWithValue("autor", buch.author);
 
             command.ExecuteNonQuery();
 
@@ -99,10 +99,10 @@ namespace BuchDatenbank
             using var datenbankVerbindung = new MySqlConnection(_connectionString);
             datenbankVerbindung.Open();
 
-            string loeschen = "INSERT INTO " + ziel + " (buecher_title, buecher_author) VALUES ('" + buch.title + "', '" + buch.author + "')";
+            string loeschen = "INSERT INTO " + ziel + " (titel, autor) VALUES ('" + buch.title + "', '" + buch.author + "')";
             using var command = new MySqlCommand(loeschen, datenbankVerbindung);
-            command.Parameters.AddWithValue("buecher_title", buch.title);
-            command.Parameters.AddWithValue("buecher_author", buch.author);
+            command.Parameters.AddWithValue("titel", buch.title);
+            command.Parameters.AddWithValue("autor", buch.author);
 
             command.ExecuteNonQuery();
 
