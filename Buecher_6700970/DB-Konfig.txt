@@ -5,21 +5,17 @@ USE BuecherDB;
 
 DROP TABLE IF EXISTS aktuelle_buecher;
 CREATE TABLE aktuelle_buecher(
-	id INT NOT NULL AUTO_INCREMENT,
 	buecher_title VARCHAR(100) NOT NULL,
-	buecher_author VARCHAR(100) NOT NULL,
-	buecher_type VARCHAR(100) NOT NULL,
-	PRIMARY KEY ( id ));
+	buecher_author VARCHAR(100) NOT NULL
+);
 
 DROP TABLE IF EXISTS archivierte_buecher;
 CREATE TABLE archivierte_buecher(
-	id INT NOT NULL AUTO_INCREMENT,
 	buecher_title VARCHAR(100) NOT NULL,
-	buecher_author VARCHAR(100) NOT NULL,
-	buecher_type VARCHAR(100) NOT NULL,
-	PRIMARY KEY ( id ));
+	buecher_author VARCHAR(100) NOT NULL
+);
 
-INSERT INTO aktuelle_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Der Herr der Ringe', 'J.R.R. Tolkien', 'aktiv');
-INSERT INTO aktuelle_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Das Silmarilion', 'J.R.R. Tolkien', 'aktiv');
-INSERT INTO archivierte_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Die wilden Kerle ', 'Joachim Masannek', 'archiv');
-INSERT INTO archivierte_buecher (buecher_title, buecher_author, buecher_type) VALUES ('Wildernacht', 'Joachim Masannek', 'archiv');
+INSERT INTO aktuelle_buecher (buecher_title, buecher_author) VALUES ('Der Herr der Ringe', 'J.R.R. Tolkien');
+INSERT INTO aktuelle_buecher (buecher_title, buecher_author) VALUES ('Das Silmarilion', 'J.R.R. Tolkien');
+INSERT INTO archivierte_buecher (buecher_title, buecher_author) VALUES ('Die wilden Kerle ', 'Joachim Masannek');
+INSERT INTO archivierte_buecher (buecher_title, buecher_author) VALUES ('Wildernacht', 'Joachim Masannek');

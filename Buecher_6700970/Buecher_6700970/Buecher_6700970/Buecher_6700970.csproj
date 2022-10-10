@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BuecherDatenbank\BuchDatenbank.csproj" />
-    <ProjectReference Include="..\Buecher\Buecher.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,11 +8,90 @@ using Microsoft.Extensions.Configuration;
 namespace Buecher_6700970.Controllers
 {
     public class BuchController : Controller 
-    {
 
-        // Anweisung um die notwendigen Verbindungsinformationen an die Funktion zum Abrufen der Bücherliste bereitzustellen
-        // Auserdem wird die dabei erstellte Liste durch diesen Aufruf an das Model übergeben um auf der Website angezeigt zu werden.
+        // ermöglicht die Übergabe der Verbindungsparameter mittels DI
+    {
+        private readonly KonfigurationsLeser _konfigurationsLeser;
+        public BuchController(KonfigurationsLeser konfigurationsLeser)
+        {
+            this._konfigurationsLeser = konfigurationsLeser;
+        }
+
+        public string GetConnectionString()
+        {
+            return _konfigurationsLeser.LiesDatenbankVerbindungZurMariaDB(); 
+        }
+
         public IActionResult Index()
+        {
+
+            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); //Daten werden in ein Model eingelesen
+
+            return View(model); //View wird erstellt
+        }
+
+        public BuecherListeModel LeseDatenInModel(string connectionString)
+        {
+            //erstellen zweier Listen, welche die Daten der angezeigten Tabellen beinhaltet
+            List<BuchDTO> aktuelleBuecher = new();
+            List<BuchDTO> archivierteBuecher = new();
+
+            //Initialisieren des repositorys, in welchem die Datenbankabfragen stattfinden
+            var repository = new BuchRepository(connectionString);
+
+            //Auslesen der beiden Tabellen und befüllen der Listen mit den Daten in zwei Unterschiedlichen Threads (zur Parallelisierung)
+            Thread aktuelleBuecherLesen = new Thread(() =>
+            {
+                aktuelleBuecher = repository.HoleAktuelleBuecher();
+            });
+
+            Thread archivierteBuecherLesen = new Thread(() =>
+            {
+                archivierteBuecher = repository.HoleArchivierteBuecher();
+            });
+
+            //Ausführen der oben erstellten Threads
+            aktuelleBuecherLesen.Start();
+            archivierteBuecherLesen.Start();
+
+            aktuelleBuecherLesen.Join();
+            archivierteBuecherLesen.Join();
+
+            return new BuecherListeModel(aktuelleBuecher, archivierteBuecher);
+        }
+
+        public void Verschieben(BuchDTO buch, string quelle, string ziel)
+        {
+            string connectionString = GetConnectionString();
+            //Repository zum verschieben wird Initialisiert
+            var repository = new BuchRepository(connectionString);
+            repository.Verschieben(buch, quelle, ziel); //Verschieben des Buches (Löschen aus der 1. Tabelle und Einfügen in die andere Tabelle) wird ausgeführt
+        }
+
+        public IActionResult VerschiebeNachAktuell(BuchDTO buch)
+        {
+            Verschieben(buch, "archivierte_buecher", "aktuelle_buecher"); //Start des verschiebens eines archivierten Buches, zu einem aktuellen Buch
+
+            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); //Neues Laden der beiden Tabellen, nach obiger Verschiebung
+
+            return View("Views/Buch/Index.cshtml", model); //erstellen der View
+        }
+
+        public IActionResult VerschiebeNachArchiviert(BuchDTO buch)
+        {
+            Verschieben(buch, "aktuelle_buecher", "archivierte_buecher"); //Start des verschiebens eines aktuellen Buches, zu einem archivierten Buch
+
+            BuecherListeModel model = LeseDatenInModel(GetConnectionString()); //Neues Laden der beiden Tabellen, nach obiger Verschiebung
+
+            return View("Views/Buch/Index.cshtml", model); //erstellend der View
+        }
+
+        // Beim erneuten Versuch die DI umzusetzen kam es zu einem neuartigen Fehler, der nicht auf Fehler in 
+        // der Implementierung der DI hinweist
+        // Daraufhin wurde alles nochmal umgearbeitet, auch im hinblick auf die Aufgabenstellung Threads für 
+        // die Daten einbindung zu verwenden
+
+        /*public IActionResult Index()
         {
             string connectionString = this.GetConnectionString();
             var repository = new BuchRepository(connectionString);
@@ -22,16 +101,6 @@ namespace Buecher_6700970.Controllers
             
             return View(model);
         }
-
-        // Versuch die DB-Verbindung mittels Dependency Injection zu verwirklichen schlug fehl, dafür 
-        // sind die beiden nachfolgenden auskommentierten Aufrufe gedacht gewesen.
-
-        //KonfigurationsLeser _konfigurationsLeser = new KonfigurationsLeser(configuration);
-
-        //private string GetConnectionString()
-        //{
-        //    return _konfigurationsLeser.LiesDatenbankVerbindungZurMariaDB();
-        //}
 
         // Verbindunsinfomationen für den Aufbau der Datenbankverbindung - Hard Codiert.
         private string GetConnectionString()
@@ -78,7 +147,32 @@ namespace Buecher_6700970.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Verschieben()
+        {
+            var model = new BuecherVerschiebenModel();
+            return View(model);
+        }
 
-       
+        [HttpPost]
+        public IActionResult Verschieben(BuecherVerschiebenModel model)
+        {
+            int id = Int32.Parse(Request.Path.ToString().Split('/').Last());
+
+            if (ModelState.IsValid
+                && !string.IsNullOrEmpty(model.Title)
+                && !string.IsNullOrEmpty(model.Type))
+            {
+                string connectionString = this.GetConnectionString();
+                var repository = new BuchRepository(connectionString);
+                repository.VerschiebenBuch(model.Title, model.Author, model.Type);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View(model);
+            }
+        }*/
+
     }
 }

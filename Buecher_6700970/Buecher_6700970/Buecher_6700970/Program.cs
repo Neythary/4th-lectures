@@ -6,7 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // notwendig für die Dependency Injection
-//builder.Services.AddScoped<IKonfigurationsLeser, KonfigurationsLeser>();
+builder.Services.AddScoped<IKonfigurationsLeser, KonfigurationsLeser>();
+
+builder.Services.AddSingleton<KonfigurationsLeser>();
+builder.Services.AddScoped<KonfigurationsLeser>();
+builder.Services.AddTransient<KonfigurationsLeser>();
 
 var app = builder.Build();
 

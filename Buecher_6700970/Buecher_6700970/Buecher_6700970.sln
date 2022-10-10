@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buecher_6700970", "Buecher_6700970\Buecher_6700970.csproj", "{2F961163-1139-439B-B602-5B36A6F176DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buecher_6700970", "Buecher_6700970\Buecher_6700970.csproj", "{2F961163-1139-439B-B602-5B36A6F176DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuchDatenbank", "BuecherDatenbank\BuchDatenbank.csproj", "{3881B618-5E4B-4E01-9FDD-AFAA190E313B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buecher", "Buecher\Buecher.csproj", "{C2F683D4-1650-443C-9DB7-4C0EB55CB19C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuchDatenbank", "BuecherDatenbank\BuchDatenbank.csproj", "{3881B618-5E4B-4E01-9FDD-AFAA190E313B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{3881B618-5E4B-4E01-9FDD-AFAA190E313B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3881B618-5E4B-4E01-9FDD-AFAA190E313B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3881B618-5E4B-4E01-9FDD-AFAA190E313B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2F683D4-1650-443C-9DB7-4C0EB55CB19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2F683D4-1650-443C-9DB7-4C0EB55CB19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2F683D4-1650-443C-9DB7-4C0EB55CB19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2F683D4-1650-443C-9DB7-4C0EB55CB19C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

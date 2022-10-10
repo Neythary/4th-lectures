@@ -1,10 +1,34 @@
-﻿using Buecher;
-using BuchDatenbank;
+﻿using BuchDatenbank;
 
 namespace Buecher_6700970.Models
 {
     public class BuecherListeModel
     {
+        // Legt neue Listen an in die die Bücher durch das Model eingesetzt werden
+        public List<BuchDTO> Aktive { get; set; } = new();
+ 
+        public List<BuchDTO> Archiviert { get; set; } = new();
+
+        public BuecherListeModel(IEnumerable<BuchDTO> aktuelleBuecher, IEnumerable<BuchDTO> archivierteBuecher)
+        {
+            //Befüllen der beiden Listen
+            foreach (BuchDTO buchDTO in aktuelleBuecher)
+            {
+                Aktive.Add(buchDTO);
+            }
+
+            foreach (BuchDTO buchDTO in archivierteBuecher)
+            {
+                Archiviert.Add(buchDTO);
+            }
+        }
+
+        // Beim erneuten Versuch die DI umzusetzen kam es zu einem neuartigen Fehler, der nicht auf Fehler in 
+        // der Implementierung der DI hinweist
+        // Daraufhin wurde alles nochmal umgearbeitet, auch im hinblick auf die Aufgabenstellung Threads für 
+        // die Daten einbindung zu verwenden
+
+        /*
         // Model um die Bücher aus der Datenbank bzw. die Datenbankobjekte (DTO) in Listen zu übertragen
         // Für Aktiv & Archiv jeweils separate Listen, der Parameter Type wird in der Klasse definiert und wird
         // aus diesem Grund hier nicht gesetzt über das DTO
@@ -26,14 +50,7 @@ namespace Buecher_6700970.Models
                 }
             }            
         }
+        */
 
-
-
-        // Legt neue Listen an in die die Bücher durch das Model eingesetzt werden
-        public List<Buch> Aktive { get; set; } = new();
- 
-
-        public List<Buch> Archiviert { get; set; } = new();    
-       
     }
 }
